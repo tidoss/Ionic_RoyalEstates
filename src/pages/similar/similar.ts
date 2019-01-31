@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-an
 import { EstateHomePage } from '../pages';
 import { EliteApiProvider } from '../../providers/elite-api/elite-api';
 import * as _ from 'lodash';
+import { l } from '@angular/core/src/render3';
 
 @IonicPage()
 @Component({
@@ -10,42 +11,9 @@ import * as _ from 'lodash';
   templateUrl: 'similar.html',
 })
 export class SimilarPage {
-//   similar: any[];
-//   estate: any = {};
-//   allsimilar: any[];
-//   locationFilter = 'location';  
 
-//   constructor(
-//     public navCtrl: NavController, 
-//     public navParams: NavParams,
-//     public eliteApi: EliteApiProvider) {
-//   }
-
-//   ionViewDidLoad() {
-//     this.estate = this.navParams.get('estate');
-//     let locationData = this.eliteApi.getCurrentLocation();
-//     this.similar = locationData.similar;
-//     this.allsimilar = locationData.similar;
-//     this.filterDivision();
-//   }
-
-//   getHeader(record, recordIndex, records){
-//     if (recordIndex === 0 || record.location !== records[recordIndex-1].location) {
-//       return record.location;
-//     }
-//     return null;  
-//   }
-
-//   filterDivision(){
-    
-//     if(this.locationFilter === 'all'){
-//       this.similar = this.allsimilar;
-//     } else {
-//       this.similar = _.filter(this.allsimilar, s => s.location === this.estate.location);
-//     }
-//   }
-
-  estates = [];
+  public estates = [];
+  public toggled : any;
   private allEstates: any;
   private allEstateRegions: any;
   public queryText: string;
@@ -54,21 +22,30 @@ export class SimilarPage {
   _location: any = {};
   public selectedPublicLocation: any;
   public selectedPublicRegion: any;
+  locationFilter = 'all';
+  public toggleFlag: boolean;
+  public currentEstates = [];
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
     public eliteApi: EliteApiProvider,
-    public loadingController: LoadingController) {
-  }
+    public loadingController: LoadingController,
+  ){}
 
   ionViewDidLoad() {
+    
+    this.declareEstates();
+
+  }
+
+  declareEstates(): void {
+    
     let selectedLocation = this.eliteApi.getCurrentLocation();//this.navParams.data;
     this.selectedPublicLocation = this.eliteApi.getCurrentLocation();
     this.publicSelectedLocation = this.navParams.data;
     this.estate = this.navParams.get('estate');
     this.selectedPublicRegion = this.estate.region;
-
     this._location = this.navParams.get('locations-data');
     let _getCur = this.eliteApi.getCurrentLocation();
 
@@ -78,34 +55,24 @@ export class SimilarPage {
     console.log('publicSelectedLocation------>> ' + JSON.stringify(this.publicSelectedLocation));
     console.log('_getCur------>> ' + JSON.stringify(_getCur));
     console.log('selectedPublicRegion---------->' + this.selectedPublicRegion);
-
+    
     let loader = this.loadingController.create({
       content: 'Getting data...'
     });
-    loader.present().then(() => {
-      this.eliteApi.getLocationData(selectedLocation.location.id).subscribe(data => {
-        this.allEstates = data.estates;
-        // subdivide the estates into regions
-        this.allEstateRegions =
-          _.chain(data.estates)
-          .groupBy('region')
-          .toPairs()
-          .map(item => _.zipObject(['regionName', 'regionEstates'], item))
-          .value();
-          this.estates = this.allEstateRegions;    
-          loader.dismiss();  
-      });
+    this.eliteApi.getLocationData(selectedLocation.location.id).subscribe(data => {
+      this.allEstates = data.estates;
+      // subdivide the estates into regions
+      this.allEstateRegions =
+        _.chain(data.estates)
+        .groupBy('region')
+        .toPairs()
+        .map(item => _.zipObject(['regionName', 'regionEstates'], item))
+        .value();
+        this.estates = this.allEstateRegions;
+        console.log('this.estates------>> ' + JSON.stringify(this.estates));
+        loader.dismiss();  
     });
-    this.filterSimilar();
-  }
-
-  filterSimilar(){
-      // if(this.locationFilter === 'all'){
-      //   this.similar = this.allsimilar;
-      // } else {
-      //   this.similar = _.filter(this.allsimilar, s => s.location === this.estate.location);
-      // }
-    }
+  }  
 
   itemTapped($event, estate) {
     this.navCtrl.push(EstateHomePage, {estate: estate});
@@ -124,4 +91,33 @@ export class SimilarPage {
     this.estates = filteredEstates;
   }
 
+  public trasFilter(category : any, tog : any) : void {
+
+    this.declareEstates();
+
+    let togg : boolean = tog;
+    console.log('Toggled? ' + togg);
+
+    let val : string = category;
+    console.log('Value: ' + val);
+
+    if (!togg) {
+      return;
+    } else {
+      if (val !== ''){
+        this.estates.forEach((region, i) => {
+          region.regionEstates = region.regionEstates.filter((imot) => {
+            return imot.type == val;
+          })
+        })
+        this.estates = this.estates.filter((reg) => {
+          return reg.regionEstates.length > 0;
+        })
+  
+      }
+      console.log('filtered estates: ' + JSON.stringify(this.estates));
+    }
+
+  }
+  
 }

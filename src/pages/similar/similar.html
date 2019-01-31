@@ -1,18 +1,33 @@
 <ion-header>
   <ion-navbar></ion-navbar>
   <ion-toolbar>
-      <ion-segment secondary [(ngModel)]="locationFilter" (ionChange)="filterSimilar()">
+      <ion-segment secondary [(ngModel)]="locationFilter">
           <ion-segment-button value="location">
               Region
           </ion-segment-button>
           <ion-segment-button value="all">
               All
           </ion-segment-button>
+
       </ion-segment>
 </ion-toolbar>
 </ion-header>
 
 <ion-content>
+    <ion-card>
+        <ion-card-content>
+            <ion-item>
+                <ion-label>Filter By Type: {{value}}</ion-label>
+                <ion-select [(ngModel)]="typeFilter" (ionChange)="trasFilter(typeFilter, toggleFlag)">
+                    <ion-option value="Apartment">Apartment</ion-option>
+                    <ion-option value="House">House</ion-option>
+                    <ion-option value="Studio">Studio</ion-option>
+                </ion-select>
+                <ion-toggle [(ngModel)]="toggleFlag" (ionChange)="trasFilter(typeFilter, toggleFlag)" end color=“secondary” checked=“false” ></ion-toggle>
+            </ion-item>            
+        </ion-card-content>
+    </ion-card>
+
     <div [ngSwitch]="locationFilter">
         <ion-list *ngSwitchCase="'location'">
             <ion-item-group *ngFor="let region of estates">
@@ -37,6 +52,7 @@
         
         <ion-list *ngSwitchCase="'all'">
             <ion-item-group *ngFor="let region of estates">
+
                 <ion-item-divider color="secondary" >{{region.regionName}}</ion-item-divider>
                 <button ion-item *ngFor="let estate of region.regionEstates" (click)="itemTapped($event, estate)">
                     
@@ -47,82 +63,11 @@
                     <h2>Ref No. {{estate.refNumber}}</h2>
                     <p>{{estate.type}}, {{estate.bedrooms}} Bedrooms</p>
                     <p>{{selectedPublicLocation.location.name}}, {{estate.region}}</p>
-                    
+
                 </button>
-            </ion-item-group>
+
+            </ion-item-group>                    
         </ion-list>
-    </div>
-</ion-content>
-
-<!-- <ion-content>
-    <ion-item-group *ngFor="let region of estates">
-        <ion-item-divider color="secondary" >{{region.regionName}}</ion-item-divider>
-        <button ion-item *ngFor="let estate of region.regionEstates" (click)="itemTapped($event, estate)">
-            
-            <ion-thumbnail item-start>
-                <img src= {{estate.image}}>
-            </ion-thumbnail>
+    </div>    
     
-            <h2>Ref No. {{estate.refNumber}}</h2>
-            <p>{{estate.type}}, {{estate.bedrooms}} Bedrooms</p>
-            <p>{{publicSelectedLocation.name}}, {{estate.region}}</p>
-            
-        </button>
-    </ion-item-group>
-</ion-content> -->
-
-<!-- <ion-content padding>
-    <ion-list [virtualScroll]="locations" [approxItemHeight]="'132px'" [headerFn]="getHeader">
-        <ion-item-divider color="secondary" *virtualHeader="let header">
-            {{header}}
-        </ion-item-divider>
- 
-        <ion-item *virtualItem="let estate">
-            <ion-row>
-                <ion-col>
-                    <h2 ion-text color="primary">{{estate.estateName}}</h2>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col>
-                    <h4>Wins</h4>
-                </ion-col>
-                <ion-col>
-                    <h4>Losses</h4>
-                </ion-col>
-                <ion-col>
-                    <h4>Pct</h4>
-                </ion-col>
-                <ion-col>
-                    <h4>PF</h4>
-                </ion-col>
-                <ion-col>
-                    <h4>PA</h4>
-                </ion-col>
-                <ion-col>
-                    <h4>Diff</h4>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col>
-                    <h4>{{estate.wins}}</h4>
-                </ion-col>
-                <ion-col>
-                    <h4>{{estate.losses}}</h4>
-                </ion-col>
-                <ion-col>
-                    <h4>{{estate.winningPct}}</h4>
-                </ion-col>
-                <ion-col>
-                    <h4>{{estate.pointsFor}}</h4>
-                </ion-col>
-                <ion-col>
-                    <h4>{{estate.pointsAgainst}}</h4>
-                </ion-col>
-                <ion-col>
-                    <h4>{{estate.pointsDiff}}</h4>
-                </ion-col>
-            </ion-row>
-        </ion-item>
-    </ion-list>
-</ion-content> -->
+</ion-content>
