@@ -13,3 +13,4 @@ To run the app locally in the browser:
   6. type 'ionic serve' in the command line to initialize the app.
 
 Screenshots of the app:
+![ScreenShot](https://github.com/tidoss/Ionic_RoyalEstates/blob/master/screenshots/1.png)
