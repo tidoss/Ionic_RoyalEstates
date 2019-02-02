@@ -32,7 +32,7 @@ import { UserSettingsProvider } from '../providers/user-settings/user-settings';
     IonicStorageModule.forRoot(),
     HttpClientModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAi91xerL_8t_7tnCR7GstQ2W0uxUT6ILk'
+      apiKey: '' //add key to Firebase database
     })  
   ],
   bootstrap: [IonicApp],
