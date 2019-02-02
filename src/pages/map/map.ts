@@ -20,15 +20,12 @@ export class MapPage {
 
   ionViewDidLoad() {
     let estates = this.navParams.data;
-    // let locationData = this.eliteApi.getCurrentLocation();
     console.log(JSON.stringify(estates));
-    // let location = locationData.locations[estates.locationId];
  
     this.map = {
       lat: estates.estate.latitude,
       lng: estates.estate.longitude,
       zoom: 12
-      //markerLabel: estates.estates.location
     };
     //console.log(JSON.stringify(estates) + '------' + JSON.stringify(this.map));
   }
