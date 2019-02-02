@@ -53,6 +53,7 @@ export class MyApp {
 
   refreshFavorites() {
     this.userSettings.getAllFavorites().then(favs => this.favoriteEstates = favs);
+    console.log('test ' + JSON.stringify(this.favoriteEstates));
   }
 
   goToEstate(favorite) {

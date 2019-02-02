@@ -7,11 +7,10 @@ import {IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { MyEstatesPage, EstateDetailPage, EstatesPage, GamePage, EstateHomePage, LocationsPage, MapPage , SimilarPage} from '../pages/pages'; //TournamentsPage
+import { MyEstatesPage, EstateDetailPage, EstatesPage, EstateHomePage, LocationsPage, MapPage , SimilarPage} from '../pages/pages';
 import { EliteApiProvider } from '../providers/elite-api/elite-api';
 import { UserSettingsProvider } from '../providers/user-settings/user-settings';
 
@@ -19,12 +18,9 @@ import { UserSettingsProvider } from '../providers/user-settings/user-settings';
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
     MyEstatesPage,
-    //TournamentsPage,
     EstateDetailPage,
     EstatesPage,
-    GamePage,
     EstateHomePage,
     LocationsPage,
     MapPage,
@@ -43,12 +39,9 @@ import { UserSettingsProvider } from '../providers/user-settings/user-settings';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
     MyEstatesPage,
-    //TournamentsPage,
     EstateDetailPage,
     EstatesPage,
-    GamePage,
     EstateHomePage,
     LocationsPage,
     MapPage,
