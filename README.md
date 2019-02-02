@@ -15,3 +15,8 @@ To run the app locally in the browser:
 Screenshots of the app:
 
 ![ScreenShot](https://github.com/tidoss/Ionic_RoyalEstates/blob/master/screenshots/1.png)
+![ScreenShot](https://github.com/tidoss/Ionic_RoyalEstates/blob/master/screenshots/2.png)
+![ScreenShot](https://github.com/tidoss/Ionic_RoyalEstates/blob/master/screenshots/3.png)
+![ScreenShot](https://github.com/tidoss/Ionic_RoyalEstates/blob/master/screenshots/4.png)
+![ScreenShot](https://github.com/tidoss/Ionic_RoyalEstates/blob/master/screenshots/5.png)
+![ScreenShot](https://github.com/tidoss/Ionic_RoyalEstates/blob/master/screenshots/6.png)
