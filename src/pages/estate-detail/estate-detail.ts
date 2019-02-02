@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, AlertController, ToastController }
 import * as _ from 'lodash';
 import moment from 'moment';
 import { EliteApiProvider } from '../../providers/elite-api/elite-api';
-import { GamePage } from '../pages';
 import { UserSettingsProvider } from '../../providers/user-settings/user-settings';
 
 @IonicPage()
@@ -13,7 +12,7 @@ import { UserSettingsProvider } from '../../providers/user-settings/user-setting
 })
 export class EstateDetailPage {
   estate: any = {};
-  games: any[];
+  estates: any[];
   private locationData: any;
   estateStanding: any = {};
   dateFilter: string;
@@ -33,59 +32,17 @@ export class EstateDetailPage {
 
   ionViewDidLoad() {
     this.locationData = this.eliteApi.getCurrentLocation();
-    this.games = _.chain(this.locationData.games)
+    //console.log('this.locationData ' + JSON.stringify(this.locationData));
+    this.estates = _.chain(this.locationData.estates)
     .filter(g => g.estate1Id === this.estate.id || g.estate2Id === this.estate.id)
     .map(g => {
-        let isEstate1 = (g.estate1Id === this.estate.id);
-        let opponentName = isEstate1 ? g.estate2 : g.estate1;
-        let scoreDisplay = this.getScoreDisplay(isEstate1, g.estate1Score, g.estate2Score);
         return {
-          gameId: g.id,
-          opponent: opponentName,
-          time: Date.parse(g.time),
           location: g.location,
-          locationUrl: g.locationUrl,
-          scoreDisplay: scoreDisplay,
-          homeAway: (isEstate1 ? "vs." : "at")
+          locationUrl: g.locationUrl
         };
     })
     .value();
-    this.allGames = this.games;
-    this.estateStanding = _.find(this.locationData.standings, { 'estateId': this.estate.id });
     this.userSettings.isFavoriteEstate(this.estate.id).then(value => this.isSaveing = value);
-  }
-
-  getScoreDisplay(isEstate1, estate1Score, estate2Score) {
-    if (estate1Score && estate2Score) {
-      var estateScore = (isEstate1 ? estate1Score : estate2Score);
-      var opponentScore = (isEstate1 ? estate2Score : estate1Score);
-      var winIndicator = estateScore > opponentScore ? "W: " : "L: ";
-      return winIndicator + estateScore + "-" + opponentScore;
-    }
-    else {
-      return "";
-    }
-  }
-
-  gameClicked($event, game) {
-    let sourceGame = this.locationData.games.find(g => g.id === game.gameId);
-    this.navCtrl.parent.parent.push(GamePage, sourceGame);
-  }
-
-  dateChanged() {
-    if(this.useDateFilter) {
-      this.games = _.filter(this.allGames, g => moment(g.time).isSame(this.dateFilter, 'day'));
-    } else {
-        this.games = this.allGames;
-    }
-  }
-
-  getScoreWorL(game){
-    return game.scoreDisplay ? game.scoreDisplay[0] : '';
-  }
-
-  getScoreDisplayBadgeClass(game) {
-    return game.scoreDisplay.indexOf('W:') === 0 ? 'primary' : 'danger';
   }
 
   toggleSave() {
