@@ -39,6 +39,6 @@ export class MyEstatesPage {
             loader.dismiss();
             this.navCtrl.push(EstateHomePage, {estate: favorite.estate});
         });
-}
+  }
 
 }
