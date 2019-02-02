@@ -49,12 +49,12 @@ export class SimilarPage {
     this._location = this.navParams.get('locations-data');
     let _getCur = this.eliteApi.getCurrentLocation();
 
-    console.log('this.estate------>> ' + JSON.stringify(this.estate));
-    console.log('this._location------>> ' + JSON.stringify(this._location));
-    console.log('selectedLocation------>> ' + JSON.stringify(selectedLocation));
-    console.log('publicSelectedLocation------>> ' + JSON.stringify(this.publicSelectedLocation));
-    console.log('_getCur------>> ' + JSON.stringify(_getCur));
-    console.log('selectedPublicRegion---------->' + this.selectedPublicRegion);
+    // console.log('this.estate------>> ' + JSON.stringify(this.estate));
+    // console.log('this._location------>> ' + JSON.stringify(this._location));
+    // console.log('selectedLocation------>> ' + JSON.stringify(selectedLocation));
+    // console.log('publicSelectedLocation------>> ' + JSON.stringify(this.publicSelectedLocation));
+    // console.log('_getCur------>> ' + JSON.stringify(_getCur));
+    // console.log('selectedPublicRegion---------->' + this.selectedPublicRegion);
     
     let loader = this.loadingController.create({
       content: 'Getting data...'
